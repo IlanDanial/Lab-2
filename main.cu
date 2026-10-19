@@ -89,7 +89,7 @@ int main(int argc, char** argv) {
     CUDA_CHECK(cudaMemcpy(C_H.data(), C_d, bytesC, cudaMemcpyDeviceToHost));
     // , compare,
     bool pass = true;
-    for (int i = 0; i < C_H.size(); i++){
+    for (size_t i = 0; i < C_H.size(); i++){
     pass = close_enough(C_H[i], C_cpu[i]);
     if (pass == false){
         cout << " GPU: " << C_H[i] << " CPU: " << C_cpu[i] << " index: " << i << endl;

@@ -1,0 +1,37 @@
+Job ID:     46726272
+Host:       c1105a-s11.ufhpc
+Date:       Mon Oct 19 04:42:58 PM EDT 2026
+
+=== Environment ===
+name, driver_version, memory.total [MiB]
+NVIDIA L4, 580.178.04, 23034 MiB
+Cuda compilation tools, release 13.2, V13.2.78
+Build cuda_13.2.r13.2/compiler.37668154_0
+gcc (GCC) 14.2.0
+
+=== Build ===
+rm -f lab2 *.o
+nvcc -O3 -std=c++17 -Xcompiler -Wall,-Wextra -I../include -I. -c main.cu -o main.o
+nvcc -O3 -std=c++17 -Xcompiler -Wall,-Wextra main.o  -o lab2
+
+=== Compute Sanitizer ===
+========= COMPUTE-SANITIZER
+PassM: 31 K: 17 N: 50
+========= ERROR SUMMARY: 0 errors
+
+=== Tests ===
+
+=== Test 1 ===
+PassM: 1 K: 1 N: 1
+
+=== Test 2 ===
+PassM: 3 K: 5 N: 2
+
+=== Test 3 ===
+PassM: 16 K: 16 N: 16
+
+=== Test 4 ===
+PassM: 31 K: 17 N: 50
+
+=== Test 5 ===
+PassM: 65 K: 33 N: 129
