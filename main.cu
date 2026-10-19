@@ -122,9 +122,9 @@ int main(int argc, char** argv) {
     
 
     for (size_t i = 0; i < blocks.size(); i++){
-    // launch matmul
-    dim3 block1(blocks[i],256/blocks[i]);
-    dim3 grid1((N+block1.x-1)/block1.x, (M+block1.y-1)/block1.y);
+        // launch matmul
+        dim3 block1(blocks[i],256/blocks[i]);
+        dim3 grid1((N+block1.x-1)/block1.x, (M+block1.y-1)/block1.y);
         for (int rep = 0; rep < 10; rep++){
             CUDA_CHECK(cudaEventRecord(start));
             matmul<<<grid1, block1>>>(A_d, B_d, C_d, M, K, N);
