@@ -1,6 +1,6 @@
-Job ID:     46726272
-Host:       c1105a-s11.ufhpc
-Date:       Mon Oct 19 04:42:58 PM EDT 2026
+Job ID:     46731253
+Host:       c0604a-s22.ufhpc
+Date:       Mon Oct 19 05:39:51 PM EDT 2026
 
 === Environment ===
 name, driver_version, memory.total [MiB]
@@ -17,21 +17,38 @@ nvcc -O3 -std=c++17 -Xcompiler -Wall,-Wextra main.o  -o lab2
 === Compute Sanitizer ===
 ========= COMPUTE-SANITIZER
 PassM: 31 K: 17 N: 50
+block 16x16 M: 31 K: 17 N: 50 median kernel time: 0.089088 ms
+block 32x8 M: 31 K: 17 N: 50 median kernel time: 0.089088 ms
 ========= ERROR SUMMARY: 0 errors
 
 === Tests ===
 
 === Test 1 ===
 PassM: 1 K: 1 N: 1
+block 16x16 M: 1 K: 1 N: 1 median kernel time: 0.004096 ms
+block 32x8 M: 1 K: 1 N: 1 median kernel time: 0.004 ms
 
 === Test 2 ===
 PassM: 3 K: 5 N: 2
+block 16x16 M: 3 K: 5 N: 2 median kernel time: 0.004064 ms
+block 32x8 M: 3 K: 5 N: 2 median kernel time: 0.004032 ms
 
 === Test 3 ===
 PassM: 16 K: 16 N: 16
+block 16x16 M: 16 K: 16 N: 16 median kernel time: 0.004096 ms
+block 32x8 M: 16 K: 16 N: 16 median kernel time: 0.004 ms
 
 === Test 4 ===
 PassM: 31 K: 17 N: 50
+block 16x16 M: 31 K: 17 N: 50 median kernel time: 0.004096 ms
+block 32x8 M: 31 K: 17 N: 50 median kernel time: 0.004096 ms
 
 === Test 5 ===
 PassM: 65 K: 33 N: 129
+block 16x16 M: 65 K: 33 N: 129 median kernel time: 0.005856 ms
+block 32x8 M: 65 K: 33 N: 129 median kernel time: 0.00512 ms
+
+=== Timing 1024x1024x1024 ===
+PassM: 1024 K: 1024 N: 1024
+block 16x16 M: 1024 K: 1024 N: 1024 median kernel time: 1.18067 ms
+block 32x8 M: 1024 K: 1024 N: 1024 median kernel time: 1.17043 ms
