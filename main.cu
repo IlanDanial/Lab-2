@@ -8,6 +8,7 @@
 #include <iostream>
 #include <iomanip>
 #include <random>
+#include <algorithm>
 using namespace std;
 
 inline void cuda_check(cudaError_t e) {
@@ -80,6 +81,7 @@ int main(int argc, char** argv) {
     // launch matmul
     dim3 block(16,16);
     dim3 grid((N+block.x-1)/block.x, (M+block.y-1)/block.y);
+
     matmul<<<grid, block>>>(A_d, B_d, C_d, M, K, N);
     // check launch
     CUDA_CHECK(cudaGetLastError());
@@ -105,6 +107,47 @@ int main(int argc, char** argv) {
         cout << "Pass" << "M: " << M << " K: " << K << " N: " << N << endl;
     }
 
+    vector<int> blocks = {16, 32};
+
+    CUDA_CHECK(cudaMalloc(&A_d, bytesA));
+    CUDA_CHECK(cudaMalloc(&B_d, bytesB));
+    CUDA_CHECK(cudaMalloc(&C_d, bytesC));
+    // Copy A and B
+    CUDA_CHECK(cudaMemcpy(A_d, A_h.data(), bytesA, cudaMemcpyHostToDevice));
+    CUDA_CHECK(cudaMemcpy(B_d, B_h.data(), bytesB, cudaMemcpyHostToDevice));
+    cudaEvent_t start, stop;
+    CUDA_CHECK(cudaEventCreate(&start));
+    CUDA_CHECK(cudaEventCreate(&stop));
+    vector<vector<float>> times(blocks.size());
+    
+
+    for (size_t i = 0; i < blocks.size(); i++){
+    // launch matmul
+    dim3 block1(blocks[i],256/blocks[i]);
+    dim3 grid1((N+block1.x-1)/block1.x, (M+block1.y-1)/block1.y);
+        for (int rep = 0; rep < 10; rep++){
+            CUDA_CHECK(cudaEventRecord(start));
+            matmul<<<grid1, block1>>>(A_d, B_d, C_d, M, K, N);
+            CUDA_CHECK(cudaEventRecord(stop));
+            // check launch
+            CUDA_CHECK(cudaGetLastError());
+            // synchronize
+            CUDA_CHECK(cudaDeviceSynchronize());
+            float ms = 0.0f;
+            CUDA_CHECK(cudaEventElapsedTime(&ms, start, stop));
+            times[i].push_back(ms);
+        }
+    }
+    CUDA_CHECK(cudaFree(A_d)); CUDA_CHECK(cudaFree(B_d)); CUDA_CHECK(cudaFree(C_d));
+
+    // median and output
+    for (size_t i = 0; i < blocks.size(); i++){
+        sort(times[i].begin(), times[i].end());
+        float median = times[i][times[i].size() / 2];
+        cout << "block " << blocks[i] << "x" << 256/blocks[i]
+             << " M: " << M << " K: " << K << " N: " << N
+             << " median kernel time: " << median << " ms" << endl;
+    }
 
     return pass ? 0 : 1;
 }
