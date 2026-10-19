@@ -48,6 +48,5 @@ echo -e "\n=== Test 5 ==="
 ./lab2 65 33 129
 
 
-echo -e "
-=== Timing 1024x1024x1024 ==="
+echo -e "\n=== Timing 1024x1024x1024 ==="
 ./lab2 1024 1024 1024
