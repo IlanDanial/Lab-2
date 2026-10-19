@@ -1,0 +1,26 @@
+# Build directories and outputs
+bin/
+build/
+*.o
+*.obj
+*.out
+*.exe
+
+# SLURM output and error files
+slurm-*.out
+slurm-*.err
+
+# IDE and Editor files
+.vscode/*
+!.vscode/settings.json
+!.vscode/c_cpp_properties.json
+.vs/
+*.ipch
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Course-supplied materials (not my work)
+*.pdf
+Lab__export/
